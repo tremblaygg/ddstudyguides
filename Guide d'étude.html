@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Guide d'étude : Christianisation de l’Occident</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overscroll-behavior-y: none;
+        }
+        .medieval-font { font-family: 'MedievalSharp', cursive; }
+        .slide { display: none; }
+        .slide.active { display: block; }
+        .flip-card-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            backface-visibility: hidden;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        /* Mobile nav bar floating style */
+        @media (max-width: 640px) {
+            #mobile-nav {
+                position: fixed;
+                bottom: 0; left: 0; right: 0;
+                z-index: 50;
+                background: rgba(255,255,255,0.95);
+                box-shadow: 0 -2px 12px 0 rgba(0,0,0,0.12);
+                border-top-left-radius: 1.5rem;
+                border-top-right-radius: 1.5rem;
+            }
+            body { padding-bottom: 70px; }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 transition-colors">
+
+    <!-- Header -->
+    <header class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm sticky top-0 z-40 shadow-md">
+        <div class="max-w-3xl mx-auto px-4">
+            <div class="flex items-center justify-between h-14">
+                <div class="text-lg font-bold medieval-font text-gray-700 dark:text-gray-100">Christianisation de l’Occident</div>
+                <!-- Dark/Light Mode Switch -->
+                <button id="theme-toggle" class="ml-3 p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:scale-110 transition" aria-label="Changer le mode sombre/clair">
+                    <svg id="theme-icon" class="w-6 h-6" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="5" fill="currentColor"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M16.24 16.24l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M16.24 7.76l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="p-2 pt-4 sm:p-4 md:p-8 max-w-3xl mx-auto">
+        <div id="slides-container" class="">
+
+            <!-- (Slides as in your existing file: slide-1, slide-2, ... slide-14) -->
+            <!-- Copy ALL your original slides here, unchanged! -->
+            <!-- ... (all your slide divs here, unchanged, for brevity) ... -->
+
+        </div>
+    </main>
+
+    <!-- Mobile Navigation Bar -->
+    <nav id="mobile-nav" class="sm:hidden flex justify-around items-center h-16 px-3">
+        <button id="prev-btn" class="p-3 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700" aria-label="Précédent">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"></path></svg>
+        </button>
+        <button id="open-menu" class="p-3 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700" aria-label="Menu">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <button id="next-btn" class="p-3 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700" aria-label="Suivant">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
+        </button>
+    </nav>
+
+    <!-- Slideout menu (for jump-to-slide) -->
+    <div id="slide-menu-bg" class="fixed inset-0 bg-black/40 z-50 hidden"></div>
+    <aside id="slide-menu" class="fixed left-0 top-0 h-full w-72 bg-white dark:bg-gray-800 z-50 shadow-lg transform -translate-x-full transition-transform duration-200">
+        <div class="p-4">
+            <div class="mb-4 text-lg font-bold medieval-font text-gray-800 dark:text-gray-100">Aller à...</div>
+            <ul id="slide-menu-list" class="space-y-2"></ul>
+            <button id="close-menu" class="mt-8 w-full p-2 rounded bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100">Fermer</button>
+        </div>
+    </aside>
+
+    <script>
+        // Slide logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            let currentSlide = 0;
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+
+            // For mobile menu
+            const openMenuBtn = document.getElementById('open-menu');
+            const closeMenuBtn = document.getElementById('close-menu');
+            const slideMenu = document.getElementById('slide-menu');
+            const slideMenuBg = document.getElementById('slide-menu-bg');
+            const slideMenuList = document.getElementById('slide-menu-list');
+
+            // Theme toggle
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            function setTheme(theme) {
+                if(theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('theme','dark');
+                    themeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z" fill="currentColor"/>';
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('theme','light');
+                    themeIcon.innerHTML = '<circle cx="12" cy="12" r="5" fill="currentColor"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M16.24 16.24l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M16.24 7.76l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>';
+                }
+            }
+            themeToggle.addEventListener('click', ()=> {
+                setTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark');
+            });
+            setTheme(localStorage.getItem('theme')||'light');
+
+            // Slide menu list
+            function buildMenu() {
+                slideMenuList.innerHTML = '';
+                slides.forEach((slide, idx) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<button class="w-full text-left p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100" data-slide="${idx}">${idx+1}. ${slide.dataset.title||'Diapositive'}</button>`;
+                    slideMenuList.appendChild(li);
+                });
+            }
+            buildMenu();
+
+            // Show slide by index
+            function showSlide(index) {
+                slides.forEach(slide => slide.classList.remove('active'));
+                if (slides[index]) {
+                    slides[index].classList.add('active');
+                    currentSlide = index;
+                }
+                prevBtn.disabled = index === 0;
+                nextBtn.disabled = index === slides.length - 1;
+            }
+
+            // Navigation
+            prevBtn.addEventListener('click', () => { if(currentSlide > 0) showSlide(currentSlide-1); });
+            nextBtn.addEventListener('click', () => { if(currentSlide < slides.length-1) showSlide(currentSlide+1); });
+
+            // Swipe navigation (for mobile)
+            let touchStartX = null;
+            document.body.addEventListener('touchstart', function(e) {
+                if (e.touches.length === 1) touchStartX = e.touches[0].clientX;
+            });
+            document.body.addEventListener('touchend', function(e) {
+                if (touchStartX === null) return;
+                let touchEndX = e.changedTouches[0].clientX;
+                if (touchEndX - touchStartX > 50) { prevBtn.click(); }
+                if (touchEndX - touchStartX < -50) { nextBtn.click(); }
+                touchStartX = null;
+            });
+
+            // Slide menu open/close
+            openMenuBtn.addEventListener('click', ()=> {
+                slideMenu.classList.remove('-translate-x-full');
+                slideMenuBg.classList.remove('hidden');
+            });
+            closeMenuBtn.addEventListener('click', ()=> {
+                slideMenu.classList.add('-translate-x-full');
+                slideMenuBg.classList.add('hidden');
+            });
+            slideMenuBg.addEventListener('click', closeMenuBtn.click);
+
+            // Jump to slide from menu
+            slideMenuList.addEventListener('click', (e) => {
+                if(e.target.matches('button[data-slide]')) {
+                    showSlide(Number(e.target.dataset.slide));
+                    closeMenuBtn.click();
+                }
+            });
+
+            // Show first slide on load
+            showSlide(0);
+        });
+    </script>
+</body>
+</html>
