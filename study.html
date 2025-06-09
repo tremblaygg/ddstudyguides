@@ -2,18 +2,26 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guide d'étude : Christianisation de l’Occident</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            overscroll-behavior-y: none;
         }
-        .medieval-font { font-family: 'MedievalSharp', cursive; }
-        .slide { display: none; }
-        .slide.active { display: block; }
+        .medieval-font {
+            font-family: 'MedievalSharp', cursive;
+        }
+        /* Hide all slides by default */
+        .slide {
+            display: none;
+        }
+        /* Show the active slide */
+        .slide.active {
+            display: block;
+        }
+        /* Simple flip animation for quiz cards */
         .flip-card-inner {
             transition: transform 0.6s;
             transform-style: preserve-3d;
@@ -22,6 +30,7 @@
             transform: rotateY(180deg);
         }
         .flip-card-front, .flip-card-back {
+            -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
         }
         .flip-card-back {
@@ -30,165 +39,377 @@
         .perspective-1000 {
             perspective: 1000px;
         }
-        /* Mobile nav bar floating style */
-        @media (max-width: 640px) {
-            #mobile-nav {
-                position: fixed;
-                bottom: 0; left: 0; right: 0;
-                z-index: 50;
-                background: rgba(255,255,255,0.95);
-                box-shadow: 0 -2px 12px 0 rgba(0,0,0,0.12);
-                border-top-left-radius: 1.5rem;
-                border-top-right-radius: 1.5rem;
-            }
-            body { padding-bottom: 70px; }
-        }
     </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 transition-colors">
+<body class="bg-gray-100 dark:bg-gray-900">
 
     <!-- Header -->
-    <header class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm sticky top-0 z-40 shadow-md">
-        <div class="max-w-3xl mx-auto px-4">
-            <div class="flex items-center justify-between h-14">
-                <div class="text-lg font-bold medieval-font text-gray-700 dark:text-gray-100">Christianisation de l’Occident</div>
-                <!-- Dark/Light Mode Switch -->
-                <button id="theme-toggle" class="ml-3 p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:scale-110 transition" aria-label="Changer le mode sombre/clair">
-                    <svg id="theme-icon" class="w-6 h-6" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="5" fill="currentColor"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M16.24 16.24l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M16.24 7.76l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    <header class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Navigation Arrows -->
+                <button id="prev-btn" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <svg class="w-6 h-6 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+
+                <!-- Dropdown Menu -->
+                <select id="slide-select" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-auto p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 medieval-font">
+                    <!-- Options will be populated by JS -->
+                </select>
+
+                <!-- Navigation Arrows -->
+                <button id="next-btn" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                     <svg class="w-6 h-6 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                 </button>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="p-2 pt-4 sm:p-4 md:p-8 max-w-3xl mx-auto">
-        <div id="slides-container" class="">
+    <main class="p-4 sm:p-6 md:p-8">
+        <div id="slides-container" class="max-w-7xl mx-auto">
 
-            <!-- (Slides as in your existing file: slide-1, slide-2, ... slide-14) -->
-            <!-- Copy ALL your original slides here, unchanged! -->
-            <!-- ... (all your slide divs here, unchanged, for brevity) ... -->
+            <!-- Slide 1: Title -->
+            <div id="slide-1" class="slide" data-title="Page d'accueil">
+                 <div class="relative min-h-[75vh] flex items-center justify-center text-center text-white bg-gray-800 rounded-2xl shadow-lg overflow-hidden p-8">
+                    <img src="https://placehold.co/1200x800/334155/e2e8f0?text=+" alt="Fond médiéval" class="absolute inset-0 w-full h-full object-cover opacity-30">
+                    <div class="relative z-10">
+                        <h1 class="text-5xl md:text-7xl font-bold medieval-font">Christianisation de l’Occident</h1>
+                        <p class="mt-4 text-2xl text-gray-300">Guide d’étude</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Timeline -->
+            <div id="slide-2" class="slide" data-title="Repères Chronologiques">
+                 <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8">
+                    <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-white mb-2 medieval-font">Repères Chronologiques</h1>
+                    <p class="text-center text-gray-600 dark:text-gray-300 mb-12">Situer les événements clés du Moyen Âge.</p>
+                    <div class="relative w-full py-10 px-4">
+                        <div class="absolute left-0 top-1/2 w-full h-1 bg-gray-300 dark:bg-gray-600 transform -translate-y-1/2"></div>
+                        <div class="absolute top-1/2 h-2.5 bg-red-400/50 dark:bg-red-600/50 rounded-full transform -translate-y-1/2" style="left: 20%; width: 45%;"><div class="text-center relative -top-8 text-sm font-semibold text-red-600 dark:text-red-300">Croisades</div></div>
+                        <div class="relative flex justify-between w-full">
+                            <div class="flex flex-col items-center group" style="width: 20%;"><div class="relative z-10"><div class="w-12 h-12 bg-white dark:bg-gray-800 border-4 border-blue-500 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110"><svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zM12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 01-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="none"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 9l-3 6-3-6"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 13l-1 2M19 13l1 2M9 7L8 5M15 7l1-2"></path></svg></div><div class="absolute bottom-full mb-3 w-48 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"><div class="bg-gray-800 text-white text-sm rounded-lg shadow-lg p-3"><h3 class="font-bold">476</h3><p>Chute de l'Empire romain.</p></div></div></div><div class="mt-3 font-semibold text-gray-700 dark:text-gray-300">476</div></div>
+                            <div class="flex flex-col items-center group" style="width: 20%;"><div class="relative z-10"><div class="w-12 h-12 bg-white dark:bg-gray-800 border-4 border-red-500 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110"><svg class="w-7 h-7 text-red-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 21L4.28571 3H22L19.7143 21L12 17L2 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 11.5V6.5M9.5 9H14.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="absolute bottom-full mb-3 w-48 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"><div class="bg-gray-800 text-white text-sm rounded-lg shadow-lg p-3"><h3 class="font-bold">1095</h3><p>Appel à la première croisade.</p></div></div></div><div class="mt-3 font-semibold text-gray-700 dark:text-gray-300">1095</div></div>
+                            <div class="flex flex-col items-center group" style="width: 45%;"><div class="relative z-10"><div class="w-12 h-12 bg-white dark:bg-gray-800 border-4 border-yellow-500 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110"><svg class="w-7 h-7 text-yellow-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 20H4V12L8 8H16L20 12V20Z" stroke="currentColor" stroke-width="2"/><path d="M12 20V16" stroke="currentColor" stroke-width="2"/><path d="M8 4H16V8H8V4Z" stroke="currentColor" stroke-width="2"/><path d="M18.5 10L20.5 7.5M5.5 10L3.5 7.5" stroke="currentColor" stroke-width="2"/></svg></div><div class="absolute bottom-full mb-3 w-52 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"><div class="bg-gray-800 text-white text-sm rounded-lg shadow-lg p-3"><h3 class="font-bold">1291</h3><p>Fin des croisades.</p></div></div></div><div class="mt-3 font-semibold text-gray-700 dark:text-gray-300">1291</div></div>
+                            <div class="flex flex-col items-center group" style="width: 15%;"><div class="relative z-10"><div class="w-12 h-12 bg-white dark:bg-gray-800 border-4 border-green-500 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110"><svg class="w-7 h-7 text-green-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 17.5V19.5H21V17.5L18 16L12 4L6 16L3 17.5Z" stroke="currentColor" stroke-width="2"/><path d="M12 10V4" stroke="currentColor" stroke-width="2"/></svg></div><div class="absolute bottom-full mb-3 w-52 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"><div class="bg-gray-800 text-white text-sm rounded-lg shadow-lg p-3"><h3 class="font-bold">1492</h3><p>Fin du Moyen Âge.</p></div></div></div><div class="mt-3 font-semibold text-gray-700 dark:text-gray-300">1492</div></div>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+
+            <!-- Slide 3: Two Powers -->
+            <div id="slide-3" class="slide" data-title="Les Deux Pouvoirs">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8">
+                     <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-white mb-2 medieval-font">Les Deux Pouvoirs de l’Église</h1>
+                    <p class="text-center text-gray-600 dark:text-gray-300 mb-12">Distinguer l'autorité spirituelle et temporelle.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="group relative bg-blue-100 dark:bg-blue-900/40 border border-blue-200 dark:border-blue-700 rounded-xl p-6 text-center flex flex-col items-center h-full transition-all duration-300 hover:shadow-2xl hover:-translate-y-2"><div class="bg-blue-200 dark:bg-blue-800/60 rounded-full p-4 mb-4"><svg class="w-12 h-12 text-blue-600 dark:text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg></div><h2 class="text-2xl font-bold text-blue-800 dark:text-blue-200 mb-3 medieval-font">Pouvoir Spirituel</h2><div class="absolute inset-0 flex items-center justify-center p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-blue-200/80 dark:bg-blue-900/80 rounded-xl"><p class="text-sm font-semibold text-blue-800 dark:text-blue-200">Guider les âmes et administrer les sacrements.</p></div><div class="text-gray-600 dark:text-gray-400 group-hover:opacity-0"><p>L'autorité sur la foi et le salut.</p></div></div>
+                        <div class="group relative bg-amber-50 dark:bg-amber-900/40 border border-amber-200 dark:border-amber-700 rounded-xl p-6 text-center flex flex-col items-center h-full transition-all duration-300 hover:shadow-2xl hover:-translate-y-2"><div class="bg-amber-100 dark:bg-amber-800/60 rounded-full p-4 mb-4"><svg class="w-12 h-12 text-amber-600 dark:text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.5a2.5 2.5 0 00-1-2.12l-5-2.88a2 2 0 00-2 0l-5 2.88A2.5 2.5 0 003 9.5V19a2 2 0 002 2z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 9V5h-2v4m-4-4v4H7m4 12v-6m-4 3h8"></path></svg></div><h2 class="text-2xl font-bold text-amber-800 dark:text-amber-200 mb-3 medieval-font">Pouvoir Temporel</h2><div class="absolute inset-0 flex items-center justify-center p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-amber-100/80 dark:bg-amber-900/80 rounded-xl"><p class="text-sm font-semibold text-amber-800 dark:text-amber-200">Posséder des terres, gouverner et lever des impôts.</p></div><div class="text-gray-600 dark:text-gray-400 group-hover:opacity-0"><p>L'influence politique et économique.</p></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: The Tithe -->
+            <div id="slide-4" class="slide" data-title="La Dîme">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8 text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-2 medieval-font">La Dîme</h1>
+                    <p class="text-gray-600 dark:text-gray-300 mb-12">Le principal mécanisme de financement de l'Église.</p>
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-8">
+                        <div class="flex items-center gap-4">
+                            <svg class="w-16 h-16 text-amber-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 21.5C2 21.5 5.5 22 8 20C10.5 18 11.5 16 11.5 16M11.5 16C11.5 16 12.5 14 10 11C7.5 8 2 3.5 2 3.5M11.5 16L22 5.5" stroke="currentColor" stroke-width="2"/><path d="M19.5 3L21.5 5" stroke="currentColor" stroke-width="2"/></svg>
+                             <span class="text-2xl font-bold text-gray-500 dark:text-gray-400">+</span>
+                            <svg class="w-16 h-16 text-gray-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="currentColor" stroke-width="2"/><path d="M12 6V12H18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                        </div>
+                        <svg class="w-12 h-12 text-gray-400 dark:text-gray-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <div class="relative">
+                            <svg class="w-20 h-20 text-red-600 dark:text-red-400" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 21H5C3.89543 21 3 20.1046 3 19V10L12 3L21 10V19C21 20.1046 20.1046 21 19 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 10V21" stroke="currentColor" stroke-width="2"/></svg>
+                            <div class="absolute -top-4 -right-8 bg-red-600 text-white rounded-full px-3 py-1 text-lg font-bold">10%</div>
+                        </div>
+                    </div>
+                     <p class="mt-8 text-gray-600 dark:text-gray-400">Environ 10% des récoltes ou revenus étaient prélevés pour l'Église.</p>
+                </div>
+            </div>
+
+            <!-- Slide 5: Church Hierarchy -->
+            <div id="slide-5" class="slide" data-title="Hiérarchie de l’Église">
+                 <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8 text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-2 medieval-font">Hiérarchie de l’Église</h1>
+                    <p class="text-gray-600 dark:text-gray-300 mb-12">La structure de commandement de l'Église médiévale.</p>
+                    <div class="space-y-4 max-w-sm mx-auto">
+                        <div class="bg-amber-100 dark:bg-amber-800/50 p-4 rounded-lg shadow"><p class="font-bold text-amber-800 dark:text-amber-200">Pape</p></div>
+                        <div class="text-gray-400">↓</div>
+                        <div class="bg-purple-100 dark:bg-purple-800/50 p-4 rounded-lg shadow"><p class="font-bold text-purple-800 dark:text-purple-200">Archevêques / Évêques</p></div>
+                        <div class="text-gray-400">↓</div>
+                        <div class="bg-sky-100 dark:bg-sky-800/50 p-4 rounded-lg shadow"><p class="font-bold text-sky-800 dark:text-sky-200">Prêtres / Curés</p></div>
+                        <div class="text-gray-400">↓</div>
+                        <div class="bg-green-100 dark:bg-green-800/50 p-4 rounded-lg shadow"><p class="font-bold text-green-800 dark:text-green-200">Moines / Nonnes</p></div>
+                    </div>
+                 </div>
+            </div>
+
+            <!-- Slide 6: Role of the Clergy -->
+            <div id="slide-6" class="slide" data-title="Rôle du Clergé">
+                 <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8 text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-2 medieval-font">Rôles du Clergé</h1>
+                     <p class="text-gray-600 dark:text-gray-300 mb-12">Le clergé jouait plusieurs rôles centraux dans la société.</p>
+                     <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-12">
+                        <div class="group relative flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg"><svg class="w-12 h-12 text-blue-500 mb-3" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 19.5C4 18.1193 5.11929 17 6.5 17H20M4 5.5C4 6.88071 5.11929 8 6.5 8H20M8 2L10 5.5L8 9" stroke="currentColor" stroke-width="2"/><path d="M4 12H14" stroke="currentColor" stroke-width="2"/></svg><h3 class="font-semibold text-gray-700 dark:text-gray-200">Enseigner</h3><div class="absolute bottom-full mb-3 w-max max-w-xs left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"><div class="bg-gray-800 text-white text-sm rounded-lg shadow-lg p-3">Enseigner la foi et la morale</div></div></div>
+                        <div class="group relative flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg"><svg class="w-12 h-12 text-green-500 mb-3" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 21V11C7 8.79086 8.79086 7 11 7C13.2091 7 15 8.79086 15 11V21" stroke="currentColor" stroke-width="2"/><path d="M11 7C11 4.23858 8.76142 2 6 2C3.23858 2 1 4.23858 1 7" stroke="currentColor" stroke-width="2"/><path d="M23 7C23 4.23858 20.7614 2 18 2C15.2386 2 13 4.23858 13 7" stroke="currentColor" stroke-width="2"/><path d="M7 16H15" stroke="currentColor" stroke-width="2"/></svg><h3 class="font-semibold text-gray-700 dark:text-gray-200">Assistance</h3><div class="absolute bottom-full mb-3 w-max max-w-xs left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"><div class="bg-gray-800 text-white text-sm rounded-lg shadow-lg p-3">Gérer l’assistance (hôpitaux, charité)</div></div></div>
+                        <div class="group relative flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg"><svg class="w-12 h-12 text-yellow-500 mb-3" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3M12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3M12 21V3" stroke="currentColor" stroke-width="2"/><path d="M3 12H21" stroke="currentColor" stroke-width="2"/></svg><h3 class="font-semibold text-gray-700 dark:text-gray-200">Conseiller</h3><div class="absolute bottom-full mb-3 w-max max-w-xs left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"><div class="bg-gray-800 text-white text-sm rounded-lg shadow-lg p-3">Conseiller les souverains</div></div></div>
+                        <div class="group relative flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg"><svg class="w-12 h-12 text-purple-500 mb-3" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 3H7.5C6.11929 3 5 4.11929 5 5.5V18.5C5 19.8807 6.11929 21 7.5 21H16.5C17.8807 21 19 19.8807 19 18.5V7.5L14.5 3Z" stroke="currentColor" stroke-width="2"/><path d="M14 3.5V8H18.5" stroke="currentColor" stroke-width="2"/></svg><h3 class="font-semibold text-gray-700 dark:text-gray-200">Savoir</h3><div class="absolute bottom-full mb-3 w-max max-w-xs left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"><div class="bg-gray-800 text-white text-sm rounded-lg shadow-lg p-3">Conserver le savoir (scriptoria, universités)</div></div></div>
+                     </div>
+                 </div>
+            </div>
+
+            <!-- Slide 7: Feudalism -->
+            <div id="slide-7" class="slide" data-title="Féodalité et Trois Ordres">
+                 <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8 text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-2 medieval-font">Les Trois Ordres de la Féodalité</h1>
+                    <p class="text-gray-600 dark:text-gray-300 mb-12">La structure sociale tripartite du Moyen Âge.</p>
+                    <div class="max-w-xl mx-auto grid grid-cols-1 gap-4">
+                        <div class="group relative bg-purple-200 dark:bg-purple-900/50 p-4 rounded-lg"><h3 class="font-bold text-lg medieval-font text-purple-800 dark:text-purple-200">Oratores</h3><div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-max max-w-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300"><div class="bg-gray-800 text-white text-sm rounded-lg shadow-lg p-3">ceux qui prient (clergé)</div></div></div>
+                        <div class="group relative bg-red-200 dark:bg-red-900/50 p-4 rounded-lg"><h3 class="font-bold text-lg medieval-font text-red-800 dark:text-red-200">Bellatores</h3><div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-max max-w-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300"><div class="bg-gray-800 text-white text-sm rounded-lg shadow-lg p-3">ceux qui combattent (noblesse)</div></div></div>
+                        <div class="group relative bg-green-200 dark:bg-green-900/50 p-4 rounded-lg"><h3 class="font-bold text-lg medieval-font text-green-800 dark:text-green-200">Laboratores</h3><div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-max max-w-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300"><div class="bg-gray-800 text-white text-sm rounded-lg shadow-lg p-3">ceux qui travaillent (paysans)</div></div></div>
+                    </div>
+                 </div>
+            </div>
+
+            <!-- Slide 8: Seigneur & Vassal -->
+            <div id="slide-8" class="slide" data-title="Seigneur et Vassal">
+                 <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8">
+                     <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-white mb-2 medieval-font">Obligations Réciproques</h1>
+                     <p class="text-center text-gray-600 dark:text-gray-300 mb-12">L'échange de devoirs entre Seigneur et Vassal.</p>
+                     <div class="flex items-center justify-around flex-col md:flex-row gap-8">
+                        <div class="text-center p-4 border-2 border-blue-300 dark:border-blue-700 rounded-lg">
+                            <div class="text-5xl mb-2">👑</div>
+                            <h3 class="text-xl font-bold text-gray-700 dark:text-gray-200 mb-2">Seigneur</h3>
+                            <p class="text-blue-600 dark:text-blue-300 font-semibold">→ Protection, Justice →</p>
+                        </div>
+                        <div class="flex flex-col gap-2 text-2xl font-semibold text-gray-500 dark:text-gray-400">
+                           <span>⇄</span>
+                        </div>
+                        <div class="text-center p-4 border-2 border-red-300 dark:border-red-700 rounded-lg">
+                            <div class="text-5xl mb-2">🛡️</div>
+                            <h3 class="text-xl font-bold text-gray-700 dark:text-gray-200 mb-2">Vassal</h3>
+                            <p class="text-red-600 dark:text-red-300 font-semibold">← Hommage, Aide militaire ←</p>
+                        </div>
+                     </div>
+                 </div>
+            </div>
+
+             <!-- Slide 9: Castle -->
+            <div id="slide-9" class="slide" data-title="Le Château Fort">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8">
+                    <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-white mb-2 medieval-font">Le Château Fort</h1>
+                    <p class="text-center text-gray-600 dark:text-gray-300 mb-12">Un centre polyvalent de la vie médiévale.</p>
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-4 p-4 bg-gray-100 dark:bg-gray-700/50 rounded-lg"><svg class="w-10 h-10 text-red-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L3 5V11C3 16.5 7.5 21.5 12 22C16.5 21.5 21 16.5 21 11V5L12 2Z" stroke="currentColor" stroke-width="2"/></svg><div><h3 class="text-xl font-bold text-red-500">Défense Militaire</h3><p class="text-sm text-gray-600 dark:text-gray-300">(Murailles, Tours)</p></div></div>
+                        <div class="flex items-center gap-4 p-4 bg-gray-100 dark:bg-gray-700/50 rounded-lg"><svg class="w-10 h-10 text-blue-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 20H4V18C4 15.7909 5.79086 14 8 14H16C18.2091 14 20 15.7909 20 18V20H14M12 14C14.2091 14 16 12.2091 16 10C16 7.79086 14.2091 6 12 6C9.79086 6 8 7.79086 8 10C8 12.2091 9.79086 14 12 14Z" stroke="currentColor" stroke-width="2"/><path d="M19 4L21 6L17 10L15 8L19 4Z" stroke="currentColor" stroke-width="2"/></svg><div><h3 class="text-xl font-bold text-blue-500">Résidence du Seigneur</h3><p class="text-sm text-gray-600 dark:text-gray-300">(Donjon, Logis)</p></div></div>
+                        <div class="flex items-center gap-4 p-4 bg-gray-100 dark:bg-gray-700/50 rounded-lg"><svg class="w-10 h-10 text-amber-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 7H15M9 12H15M9 17H12" stroke="currentColor" stroke-width="2"/><path d="M4 4H20V20H4V4Z" stroke="currentColor" stroke-width="2"/></svg><div><h3 class="text-xl font-bold text-amber-500">Centre Administratif</h3><p class="text-sm text-gray-600 dark:text-gray-300">(Grande Salle, Cour)</p></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 10: Seigneurie Vocabulary -->
+            <div id="slide-10" class="slide" data-title="Vocabulaire Seigneurie">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8">
+                    <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-white mb-2 medieval-font">Vocabulaire de la Seigneurie</h1>
+                    <div class="mt-8 space-y-4">
+                        <div class="bg-gray-100 dark:bg-gray-700/50 p-4 rounded-lg"><h3 class="font-bold text-gray-800 dark:text-gray-200">Seigneurie</h3><p class="text-sm text-gray-600 dark:text-gray-300">Domaine d’un seigneur.</p></div>
+                        <div class="bg-green-100 dark:bg-green-900/50 p-4 rounded-lg"><h3 class="font-bold text-green-800 dark:text-green-200">Réserve</h3><p class="text-sm text-gray-600 dark:text-gray-300">Terres exploitées pour le seigneur.</p></div>
+                        <div class="bg-yellow-100 dark:bg-yellow-900/50 p-4 rounded-lg"><h3 class="font-bold text-yellow-800 dark:text-yellow-200">Tenure</h3><p class="text-sm text-gray-600 dark:text-gray-300">Parcelle concédée aux tenanciers.</p></div>
+                        <div class="bg-blue-100 dark:bg-blue-900/50 p-4 rounded-lg"><h3 class="font-bold text-blue-800 dark:text-blue-200">Cens</h3><p class="text-sm text-gray-600 dark:text-gray-300">Loyer annuel (argent ou nature).</p></div>
+                        <div class="bg-red-100 dark:bg-red-900/50 p-4 rounded-lg"><h3 class="font-bold text-red-800 dark:text-red-200">Corvée</h3><p class="text-sm text-gray-600 dark:text-gray-300">Journées de travail gratuit.</p></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 11: Pilgrimages and Crusades -->
+            <div id="slide-11" class="slide" data-title="Pèlerinages et Croisades">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8">
+                     <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-white mb-2 medieval-font">Voyages Religieux et Militaires</h1>
+                     <div class="mt-8 space-y-8">
+                        <div>
+                           <h3 class="text-2xl font-bold text-blue-600 dark:text-blue-300 mb-3 medieval-font">Pèlerinages</h3>
+                           <p class="text-gray-600 dark:text-gray-400 mb-4">Voyages sacrés vers un lieu saint. Voici les principales destinations :</p>
+                           <div class="flex justify-around items-center text-center text-sm font-semibold text-gray-700 dark:text-gray-300">
+                               <span>Europe</span>
+                               <span class="text-blue-500">→</span>
+                               <div class="flex flex-col items-center gap-2">
+                                   <div class="p-2 bg-blue-100 dark:bg-blue-900/50 rounded-md">Rome</div>
+                                   <div class="p-2 bg-blue-100 dark:bg-blue-900/50 rounded-md">Jérusalem</div>
+                                   <div class="p-2 bg-blue-100 dark:bg-blue-900/50 rounded-md">St-Jacques</div>
+                               </div>
+                           </div>
+                        </div>
+                         <hr class="border-gray-200 dark:border-gray-700"/>
+                         <div>
+                           <h3 class="text-2xl font-bold text-red-600 dark:text-red-300 mb-3 medieval-font">Les Croisades (1095-1291)</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4">Expéditions militaires pour « libérer » Jérusalem.</p>
+                           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                               <div class="bg-green-100 dark:bg-green-900/50 p-4 rounded-lg">
+                                   <h4 class="font-bold text-lg text-green-800 dark:text-green-200">Conséquences positives</h4>
+                                   <ul class="list-disc list-inside mt-2 text-sm text-gray-700 dark:text-gray-300"><li>Échanges culturels</li><li>Essor du commerce</li></ul>
+                               </div>
+                               <div class="bg-red-100 dark:bg-red-900/50 p-4 rounded-lg">
+                                   <h4 class="font-bold text-lg text-red-800 dark:text-red-200">Conséquences négatives</h4>
+                                   <ul class="list-disc list-inside mt-2 text-sm text-gray-700 dark:text-gray-300"><li>Violences accrues</li><li>Intolérance religieuse</li></ul>
+                               </div>
+                           </div>
+                        </div>
+                     </div>
+                </div>
+            </div>
+
+            <!-- Slide 12: Romanesque vs Gothic -->
+            <div id="slide-12" class="slide" data-title="Roman vs Gothique">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8">
+                    <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-white mb-12 medieval-font">Architecture : Roman vs Gothique</h1>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="border-4 border-gray-500 rounded-lg p-4">
+                            <h2 class="text-2xl font-bold medieval-font text-gray-700 dark:text-gray-200 mb-4 text-center">Roman</h2>
+                            <ul class="space-y-3 text-gray-600 dark:text-gray-300">
+                                <li class="flex items-center gap-3"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4H20V8H4V4ZM4 10H20V14H4V10ZM4 16H20V20H4V16Z" fill="currentColor"/></svg> Murs épais</li>
+                                <li class="flex items-center gap-3"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12H4Z" fill="currentColor"/></svg> Arc en plein cintre</li>
+                                <li class="flex items-center gap-3"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="9" y="4" width="6" height="16" rx="1" fill="currentColor"/></svg> Petites fenêtres</li>
+                            </ul>
+                        </div>
+                         <div class="border-4 border-violet-500 rounded-lg p-4">
+                            <h2 class="text-2xl font-bold medieval-font text-violet-700 dark:text-violet-300 mb-4 text-center">Gothique</h2>
+                            <ul class="space-y-3 text-gray-600 dark:text-gray-300">
+                                <li class="flex items-center gap-3"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3L4 21H20L12 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg> Arc brisé</li>
+                                <li class="flex items-center gap-3"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2"/><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="2"/></svg> Grandes verrières (vitraux)</li>
+                                <li class="flex items-center gap-3"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3V21M19 10L12 3L5 10" stroke="currentColor" stroke-width="2"/></svg> Plus de hauteur et lumière</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 13: Church Influence -->
+            <div id="slide-13" class="slide" data-title="Influence de l’Église">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8 text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-2 medieval-font">L’Influence de l’Église</h1>
+                     <p class="text-gray-600 dark:text-gray-300 mb-12">L'Église encadre tous les aspects de la vie médiévale.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                        <div class="bg-gray-100 dark:bg-gray-700/50 p-4 rounded-lg flex items-center gap-4"><svg class="w-8 h-8 text-gray-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17 20C17 17.2386 14.7614 15 12 15C9.23858 15 7 17.2386 7 20M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="currentColor" stroke-width="2"/></svg><p>Contrôle moral et social.</p></div>
+                        <div class="bg-gray-100 dark:bg-gray-700/50 p-4 rounded-lg flex items-center gap-4"><svg class="w-8 h-8 text-gray-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 16L12 3L19 16H5Z" stroke="currentColor" stroke-width="2"/><path d="M3 21H21" stroke="currentColor" stroke-width="2"/></svg><p>Légitimation du pouvoir royal (sacre).</p></div>
+                        <div class="bg-gray-100 dark:bg-gray-700/50 p-4 rounded-lg flex items-center gap-4"><svg class="w-8 h-8 text-gray-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="currentColor" stroke-width="2"/><path d="M12 6V12H18" stroke="currentColor" stroke-width="2"/></svg><p>Rôle économique majeur (terres, dîme).</p></div>
+                        <div class="bg-gray-100 dark:bg-gray-700/50 p-4 rounded-lg flex items-center gap-4"><svg class="w-8 h-8 text-gray-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 3H7.5C6.11929 3 5 4.11929 5 5.5V18.5C5 19.8807 6.11929 21 7.5 21H16.5C17.8807 21 19 19.8807 19 18.5V7.5L14.5 3Z" stroke="currentColor" stroke-width="2"/><path d="M14 3.5V8H18.5" stroke="currentColor" stroke-width="2"/></svg><p>Encadrement de la culture et de la science.</p></div>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Slide 14: Quiz -->
+            <div id="slide-14" class="slide" data-title="Quiz">
+                 <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8">
+                    <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-white mb-12 medieval-font">Quiz Interactif</h1>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Question 1 -->
+                        <div class="flip-card perspective-1000 h-48 rounded-lg cursor-pointer" onclick="this.classList.toggle('flipped')">
+                            <div class="flip-card-inner relative w-full h-full text-center">
+                                <div class="flip-card-front absolute w-full h-full bg-blue-200 dark:bg-blue-800 flex items-center justify-center p-4 rounded-lg">
+                                    <p class="font-bold text-blue-800 dark:text-blue-200">Quel impôt finance l’Église ?</p>
+                                </div>
+                                <div class="flip-card-back absolute w-full h-full bg-blue-300 dark:bg-blue-700 flex items-center justify-center p-4 rounded-lg">
+                                    <p class="font-bold text-blue-900 dark:text-blue-100">La dîme</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Question 2 -->
+                        <div class="flip-card perspective-1000 h-48 rounded-lg cursor-pointer" onclick="this.classList.toggle('flipped')">
+                             <div class="flip-card-inner relative w-full h-full text-center">
+                                <div class="flip-card-front absolute w-full h-full bg-red-200 dark:bg-red-800 flex items-center justify-center p-4 rounded-lg">
+                                    <p class="font-bold text-red-800 dark:text-red-200">Qui sont les bellatores ?</p>
+                                </div>
+                                <div class="flip-card-back absolute w-full h-full bg-red-300 dark:bg-red-700 flex items-center justify-center p-4 rounded-lg">
+                                    <p class="font-bold text-red-900 dark:text-red-100">Ceux qui combattent (noblesse)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Question 3 -->
+                        <div class="flip-card perspective-1000 h-48 rounded-lg cursor-pointer" onclick="this.classList.toggle('flipped')">
+                             <div class="flip-card-inner relative w-full h-full text-center">
+                                <div class="flip-card-front absolute w-full h-full bg-purple-200 dark:bg-purple-800 flex items-center justify-center p-4 rounded-lg">
+                                    <p class="font-bold text-purple-800 dark:text-purple-200">Donnez 2 caractéristiques gothiques.</p>
+                                </div>
+                                <div class="flip-card-back absolute w-full h-full bg-purple-300 dark:bg-purple-700 flex items-center justify-center p-4 rounded-lg">
+                                    <p class="font-bold text-purple-900 dark:text-purple-100">Arcs brisés, vitraux, etc.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Question 4 -->
+                        <div class="flip-card perspective-1000 h-48 rounded-lg cursor-pointer" onclick="this.classList.toggle('flipped')">
+                             <div class="flip-card-inner relative w-full h-full text-center">
+                                <div class="flip-card-front absolute w-full h-full bg-yellow-200 dark:bg-yellow-800 flex items-center justify-center p-4 rounded-lg">
+                                    <p class="font-bold text-yellow-800 dark:text-yellow-200">Quelle année marque la fin des croisades ?</p>
+                                </div>
+                                <div class="flip-card-back absolute w-full h-full bg-yellow-300 dark:bg-yellow-700 flex items-center justify-center p-4 rounded-lg">
+                                    <p class="font-bold text-yellow-900 dark:text-yellow-100">1291</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            </div>
 
         </div>
     </main>
 
-    <!-- Mobile Navigation Bar -->
-    <nav id="mobile-nav" class="sm:hidden flex justify-around items-center h-16 px-3">
-        <button id="prev-btn" class="p-3 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700" aria-label="Précédent">
-            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"></path></svg>
-        </button>
-        <button id="open-menu" class="p-3 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700" aria-label="Menu">
-            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
-        <button id="next-btn" class="p-3 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700" aria-label="Suivant">
-            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path></svg>
-        </button>
-    </nav>
-
-    <!-- Slideout menu (for jump-to-slide) -->
-    <div id="slide-menu-bg" class="fixed inset-0 bg-black/40 z-50 hidden"></div>
-    <aside id="slide-menu" class="fixed left-0 top-0 h-full w-72 bg-white dark:bg-gray-800 z-50 shadow-lg transform -translate-x-full transition-transform duration-200">
-        <div class="p-4">
-            <div class="mb-4 text-lg font-bold medieval-font text-gray-800 dark:text-gray-100">Aller à...</div>
-            <ul id="slide-menu-list" class="space-y-2"></ul>
-            <button id="close-menu" class="mt-8 w-full p-2 rounded bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100">Fermer</button>
-        </div>
-    </aside>
-
     <script>
-        // Slide logic
         document.addEventListener('DOMContentLoaded', function() {
             const slides = document.querySelectorAll('.slide');
-            let currentSlide = 0;
+            const select = document.getElementById('slide-select');
             const prevBtn = document.getElementById('prev-btn');
             const nextBtn = document.getElementById('next-btn');
+            let currentSlide = 0;
 
-            // For mobile menu
-            const openMenuBtn = document.getElementById('open-menu');
-            const closeMenuBtn = document.getElementById('close-menu');
-            const slideMenu = document.getElementById('slide-menu');
-            const slideMenuBg = document.getElementById('slide-menu-bg');
-            const slideMenuList = document.getElementById('slide-menu-list');
-
-            // Theme toggle
-            const themeToggle = document.getElementById('theme-toggle');
-            const themeIcon = document.getElementById('theme-icon');
-            function setTheme(theme) {
-                if(theme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                    localStorage.setItem('theme','dark');
-                    themeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z" fill="currentColor"/>';
-                } else {
-                    document.documentElement.classList.remove('dark');
-                    localStorage.setItem('theme','light');
-                    themeIcon.innerHTML = '<circle cx="12" cy="12" r="5" fill="currentColor"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M16.24 16.24l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M16.24 7.76l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>';
-                }
-            }
-            themeToggle.addEventListener('click', ()=> {
-                setTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark');
+            // Populate dropdown menu
+            slides.forEach((slide, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `${index + 1}. ${slide.dataset.title}`;
+                select.appendChild(option);
             });
-            setTheme(localStorage.getItem('theme')||'light');
 
-            // Slide menu list
-            function buildMenu() {
-                slideMenuList.innerHTML = '';
-                slides.forEach((slide, idx) => {
-                    const li = document.createElement('li');
-                    li.innerHTML = `<button class="w-full text-left p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100" data-slide="${idx}">${idx+1}. ${slide.dataset.title||'Diapositive'}</button>`;
-                    slideMenuList.appendChild(li);
-                });
-            }
-            buildMenu();
-
-            // Show slide by index
             function showSlide(index) {
+                // Hide all slides
                 slides.forEach(slide => slide.classList.remove('active'));
+                
+                // Show the target slide
                 if (slides[index]) {
                     slides[index].classList.add('active');
                     currentSlide = index;
+                    select.value = index;
                 }
+
+                // Update button states
                 prevBtn.disabled = index === 0;
                 nextBtn.disabled = index === slides.length - 1;
             }
 
-            // Navigation
-            prevBtn.addEventListener('click', () => { if(currentSlide > 0) showSlide(currentSlide-1); });
-            nextBtn.addEventListener('click', () => { if(currentSlide < slides.length-1) showSlide(currentSlide+1); });
-
-            // Swipe navigation (for mobile)
-            let touchStartX = null;
-            document.body.addEventListener('touchstart', function(e) {
-                if (e.touches.length === 1) touchStartX = e.touches[0].clientX;
-            });
-            document.body.addEventListener('touchend', function(e) {
-                if (touchStartX === null) return;
-                let touchEndX = e.changedTouches[0].clientX;
-                if (touchEndX - touchStartX > 50) { prevBtn.click(); }
-                if (touchEndX - touchStartX < -50) { nextBtn.click(); }
-                touchStartX = null;
+            // Event Listeners
+            select.addEventListener('change', (e) => {
+                showSlide(parseInt(e.target.value));
             });
 
-            // Slide menu open/close
-            openMenuBtn.addEventListener('click', ()=> {
-                slideMenu.classList.remove('-translate-x-full');
-                slideMenuBg.classList.remove('hidden');
-            });
-            closeMenuBtn.addEventListener('click', ()=> {
-                slideMenu.classList.add('-translate-x-full');
-                slideMenuBg.classList.add('hidden');
-            });
-            slideMenuBg.addEventListener('click', closeMenuBtn.click);
-
-            // Jump to slide from menu
-            slideMenuList.addEventListener('click', (e) => {
-                if(e.target.matches('button[data-slide]')) {
-                    showSlide(Number(e.target.dataset.slide));
-                    closeMenuBtn.click();
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    showSlide(currentSlide - 1);
                 }
             });
 
-            // Show first slide on load
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < slides.length - 1) {
+                    showSlide(currentSlide + 1);
+                }
+            });
+
+            // Show the first slide initially
             showSlide(0);
         });
     </script>
+
 </body>
 </html>
